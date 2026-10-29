@@ -1,20 +1,20 @@
-# Use official Node.js image
-FROM node:20-alpine
+# Use Python base image
+FROM python:3.12-slim
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy dependency file first
+COPY requirements.txt .
 
 # Install dependencies
-RUN npm install
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
+# Copy application source
 COPY . .
 
-# Expose application port
-EXPOSE 3000
+# Optional: Expose port if using Flask/FastAPI
+EXPOSE 8000
 
-# Start application
-CMD ["npm", "start"]
+# Run application
+CMD ["python", "app.py"]
